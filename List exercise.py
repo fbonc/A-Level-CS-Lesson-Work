@@ -17,3 +17,5 @@ print(max(numbers))
 print(min(numbers))
 print(sum(numbers))
 print(sum(numbers)/len(numbers))
+
+# Filipe, good stuff. Rather than commenting out portions like this, could you write them in separate functions and then call only call the function you want.
