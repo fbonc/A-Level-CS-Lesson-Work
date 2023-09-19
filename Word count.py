@@ -15,6 +15,11 @@ for i in word_list:
     
 print(word_frequency)
 
-word_choice = input("Word count of: ")
-print(word_frequency[word_choice])
+word_choice = input("Word count of: ").lower()
+
+try:
+    print(word_frequency[word_choice])
+except KeyError:
+    print("0")
+
 
