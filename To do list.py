@@ -1,7 +1,7 @@
 tasks = []
 
 def viewtasks():
-    print("TASKS:")
+    print("TASKS:")                                         
     for i in tasks:
         print(f"{tasks.index(i) + 1}) {i}")
     choices()
