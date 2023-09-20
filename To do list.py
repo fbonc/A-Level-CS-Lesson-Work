@@ -32,7 +32,6 @@ def choices():
         print(f"{i}) {menu[i][0]}")
     choice = input("Choose an option (1-5): ")
     menu.get(choice)[1]()
-	
 
 while True:
     choices()
