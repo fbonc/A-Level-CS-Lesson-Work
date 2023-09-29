@@ -25,7 +25,7 @@ def editfile(filename):
 
     with open(filename, 'w') as file:
         while close == False:
-            linenum = input("Line number to edit ('CLOSE' to save): ")
+            linenum = input("Line number to edit ('CLOSE' to save and exit): ")
             if linenum == "CLOSE":
                 break
             edittext = input("Text to change line to: ")
@@ -45,6 +45,8 @@ def deletefile(filename):
 
 while True:
     choice = input("\n1) Read a file\n2) Write to a file\n3) Edit a specific line of a file\n4) Delete a file from this directory\n5) Stop the program\n")
+    if choice == "5":
+        break
     directory = os.listdir(os.getcwd())
     print("\nFiles in directory:")
     for eachfile in directory:
@@ -58,8 +60,6 @@ while True:
         editfile(filename)
     elif choice == "4":
         deletefile(filename)
-    elif choice == "5":
-        exit()
     else:
         continue
 
