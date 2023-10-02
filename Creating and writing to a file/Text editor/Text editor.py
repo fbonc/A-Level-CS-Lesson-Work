@@ -62,6 +62,3 @@ while True:
         deletefile(filename)
     else:
         continue
-
-            
-
