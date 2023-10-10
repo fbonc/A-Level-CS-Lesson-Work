@@ -42,6 +42,7 @@ class Card:
             "J" : "Jack",
             "Q" : "Queen",
             "K" : "King",
+            
             "S" : "Spades",
             "H" : "Hearts",
             "D" : "Diamonds",
