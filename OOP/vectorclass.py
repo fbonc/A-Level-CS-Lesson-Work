@@ -14,7 +14,7 @@ class Matrix:
     
     def __add__(self, other):
         if self.nrows != other.nrows or self.ncolumns != other.ncolumns:
-            raise Exception("ERROR: Matrices must have same number of columns and rows for addition")
+            raise Exception("Matrices must have same number of columns and rows for addition")
         
         result = deepcopy(self)
         for i in range(result.ncolumns):
@@ -24,7 +24,7 @@ class Matrix:
     
     def __sub__(self, other): 
         if self.nrows != other.nrows or self.ncolumns != other.ncolumns:
-            raise Exception("ERROR: Matrices must have same number of columns and rows for subtraction")
+            raise Exception("Matrices must have same number of columns and rows for subtraction")
         
         result = deepcopy(self)
         for i in range(result.ncolumns):
@@ -34,7 +34,7 @@ class Matrix:
     
     def __mul__ (self, other):
         if self.nrows != other.nrows or self.ncolumns != other.ncolumns:
-            raise Exception("ERROR: Matrices must have same number of columns and rows for multiplication")
+            raise Exception("Matrices must have same number of columns and rows for multiplication")
         
         result = deepcopy(self)
         for i in range(result.ncolumns):
