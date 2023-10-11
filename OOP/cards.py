@@ -12,16 +12,8 @@ class Card:
     
     def get_value(self):
         self._value = self._card_number % 13
-        if self._value == 0:
-            return "A"
-        elif self._value >= 1 and self._value <= 9:
-            return str(self._value + 1)
-        elif self._value == 10:
-            return "J"
-        elif self._value == 11:
-            return "Q"
-        elif self._value == 12:
-            return "K"
+        card_values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+        return card_values[self._value]
 
     def get_short_name(self):
         """ return card name eg '10D' '8C' 'AH' """
