@@ -44,7 +44,6 @@ class Stack:
         return self.head.next.data
     
 
-
 s1 = Stack()
 
 s1.push("Bellow")
