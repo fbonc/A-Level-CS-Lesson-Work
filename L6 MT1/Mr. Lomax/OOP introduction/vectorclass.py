@@ -105,9 +105,9 @@ def matrixTest():
     print("OK\n\n")
 
 
-matrixTest()
+v1 = Vector([2,8,-4])
 
-
+print(v1.magnitude())
 
 
 

@@ -8,11 +8,11 @@ class Stack:
         self.head = Node("Head")
         self.size = 0
 
+    def __len__(self):
+        return self.size
+
     def isEmpty(self):
         return self.size == 0
-    
-    def getSize(self):
-        return self.size
     
     def __str__(self):
         current = self.head.next
