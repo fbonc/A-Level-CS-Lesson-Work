@@ -18,7 +18,7 @@ class Book(StockItem):
         self._isbn = isbn
 
     def displayDetails(self):
-        print(f"Title: {self._title}, author: {self._maker}, ISBN: {self._isbn}, On Loan?: {self._onLoan}, Date acquired: {self._dateAcquired}")
+        print(f"Title: {self._title}, author: {self._maker}, ISBN: {self._isbn}, On loan?: {self._onLoan}, Date acquired: {self._dateAcquired}")
 
 class CD(StockItem): 
     def __init__(self, title: str, maker: str, dateAcq: str, playingTime: int):
@@ -26,7 +26,7 @@ class CD(StockItem):
         self._playingTime = playingTime
 
     def displayDetails(self):
-        print(f"Title: {self._title}, artist: {self._maker}, playing time: {self._playingTime}, on Loan?: {self._onLoan}, Date acquired: {self._dateAcquired}")
+        print(f"Title: {self._title}, artist: {self._maker}, playing time: {self._playingTime}, on loan?: {self._onLoan}, Date acquired: {self._dateAcquired}")
 
 
 b1 = Book("Meditations", "Marcus Aurelius", "10-10-21", 36123)
