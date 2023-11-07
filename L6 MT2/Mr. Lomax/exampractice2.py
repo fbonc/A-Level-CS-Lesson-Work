@@ -7,6 +7,12 @@ class Yard:
         for i in range(len(self._yard)):
             msg += f"Siding {i + 1}\n"
         return msg
+    
+    def add_siding(self, siding):
+        self._yard.append(siding)
+
+    def remove_siding(self, siding):
+        self.yard.remove(siding)
 
 class Siding:
     def __init__(self):
@@ -29,7 +35,7 @@ class Siding:
         self._size -= 1
         return temp
 
-    def getSize(self):
+    def get_size(self):
         return self._size
     
     def __str__(self):
@@ -48,7 +54,7 @@ class Wagon:
     def __str__(self):
         return f"Type: normal, owner name: {self._ownerName}, weight: {self._weight}, number of wheels: {self._numberOfWheels}"
 
-    def getOwnerName(self):
+    def get_owner_name(self):
         return self._ownerName
 
 class OpenWagon(Wagon):
@@ -71,6 +77,9 @@ class ClosedWagon(Wagon):
 
 if __name__ == "__main__":
 
+
+
+    
     #pushing siding test
     import random as rd
     siding1 = Siding()
@@ -86,7 +95,7 @@ if __name__ == "__main__":
 
     #popping siding test
     if input("Try popping test for siding? (y/n) ") == "y":
-        for i in range(30): print(f"{siding1.pop().getOwnerName()}'s Wagon")
+        for i in range(30): print(f"{siding1.pop().get_owner_name()}'s Wagon")
         print('')
     else:
         for i in range(30): siding1.pop()
