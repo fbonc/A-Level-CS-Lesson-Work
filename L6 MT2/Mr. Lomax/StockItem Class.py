@@ -25,7 +25,7 @@ class Book(StockItem):
         ISBN = [int(i) for i in str(isbn)]
 
         calculatedDigit = 0
-        Count = 1
+        Count = 1 
 
         while Count < 13:
             calculatedDigit += ISBN[Count - 1]

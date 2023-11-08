@@ -12,7 +12,7 @@ class Yard:
         self._yard.append(siding)
 
     def remove_siding(self, siding):
-        self.yard.remove(siding)
+        self._yard.remove(siding)
 
 class Siding:
     def __init__(self):
