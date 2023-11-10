@@ -7,7 +7,7 @@ class Yard:
         for i in range(len(self._yard)):
             msg += f"Siding {i + 1}\n"
         return msg
-    
+
     def add_siding(self, siding):
         self._yard.append(siding)
 
@@ -76,9 +76,6 @@ class ClosedWagon(Wagon):
         return f"Type: {self._type}, owner name: {self._ownerName}, weight: {self._weight}, number of wheels: {self._numberOfWheels}, height: {self._height}"
 
 if __name__ == "__main__":
-
-
-
     
     #pushing siding test
     import random as rd
