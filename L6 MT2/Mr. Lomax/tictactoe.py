@@ -63,9 +63,7 @@ class TicTacToe:
             return False
         
         return True
-    
-    
-    
+
 
     def playGame(self):
         while True:
@@ -87,21 +85,13 @@ class TicTacToe:
                 #if you can stop the opponent from getting three in a row; do it
                 #otherwise random move
 
-                # (self.board.data[pos] == f" {sym} " for pos in condition) for condition in self.win_conditions
-
-                # for condition in self.win_conditions:
-                #     for pos in condition:
-                #         if all()
-
-
-
                 row = randint(1,3)
                 column = randint(1,3)
                 while not self.board.set_cell(row, column, self.opponent.symbol):
                     row = randint(1,3)
                     column = randint(1,3)
                 print("\nThe opponent made a move!")
-
+ 
             if not self.checkStatus():
                 break
             self.current_player = self.opponent if self.current_player == self.player else self.player
@@ -109,4 +99,5 @@ class TicTacToe:
 
 ticTacToe = TicTacToe()
 ticTacToe.playGame()
+
 
