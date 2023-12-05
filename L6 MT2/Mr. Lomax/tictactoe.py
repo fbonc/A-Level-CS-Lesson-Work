@@ -50,7 +50,7 @@ class TicTacToe:
 
     def checkDraw(self):
         return all(cell != ' - ' for cell in self.board.data)
-    
+
     def checkStatus(self):
         if self.checkWin(self.current_player):
             self.board.display()
