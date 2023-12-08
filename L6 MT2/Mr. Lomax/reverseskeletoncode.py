@@ -84,7 +84,7 @@ def CheckIfMoveIsValid(Board, Move, BoardSize):
   MoveIsValid = False
   if Row > BoardSize or Row < 0:
     return False
-  elif Column > BoardSize or BoardSize < 0:
+  elif Column > BoardSize or Column < 0:
     return False
   elif Board[Row][Column] == " ":
     MoveIsValid = True
