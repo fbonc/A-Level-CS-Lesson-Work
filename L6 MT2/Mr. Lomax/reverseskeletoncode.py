@@ -35,9 +35,19 @@ def GetHumanPlayerMove(PlayerName):
     Requests input from the human player to determine their next move. The coordinates are provided as a single integer, 
     representing a row and column.
   """
-  print(PlayerName, "enter the coodinates of the square where you want to place your piece: ", end="")
-  Coordinates = int(input())
-  return Coordinates
+  print("Enter the coodinates of the square where you want to place your piece: ")
+
+  while True:
+    Row = input("Row number: ")
+    Column = input("Column number: ")
+    try:
+      Row = int(Row)
+      Column = int(Column)
+      break
+    except ValueError:
+      print("Invalid input; please only enter numbers for the coordinates")
+
+  return int(f"{Row}{Column}")
 
 def GetComputerPlayerMove(BoardSize):
   """
@@ -65,14 +75,18 @@ def GetPlayersName():
   PlayerName = input("What is your name? ")
   return PlayerName
 
-def CheckIfMoveIsValid(Board, Move):
+def CheckIfMoveIsValid(Board, Move, BoardSize):
   """
     Checks the validity of a proposed move. A move is considered valid if the targeted square on the board is currently empty. 
   """
   Row = Move % 10
   Column = Move // 10
   MoveIsValid = False
-  if Board[Row][Column] == " ":
+  if Row > BoardSize or Row < 0:
+    return False
+  elif Column > BoardSize or BoardSize < 0:
+    return False
+  elif Board[Row][Column] == " ":
     MoveIsValid = True
   return MoveIsValid
 
@@ -231,7 +245,7 @@ def PlayGame(PlayerName, BoardSize):
         Move = GetHumanPlayerMove(PlayerName)
       else:
         Move = GetComputerPlayerMove(BoardSize)
-      MoveIsValid = CheckIfMoveIsValid(Board, Move)
+      MoveIsValid = CheckIfMoveIsValid(Board, Move, BoardSize)
     if not HumanPlayersTurn:
       print("Press the Enter key and the computer will make its move")
       input()
