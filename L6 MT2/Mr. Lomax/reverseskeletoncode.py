@@ -152,10 +152,20 @@ def MakeMove(Board, BoardSize, Move, HumanPlayersTurn):
     Board[Row][Column] = "H"
   else:
     Board[Row][Column] = "C"
+
+  #Horizontal and vertical flips
   FlipOpponentPiecesInOneDirection(Board, BoardSize, Row, Column, 1, 0)
   FlipOpponentPiecesInOneDirection(Board, BoardSize, Row, Column, -1, 0)
   FlipOpponentPiecesInOneDirection(Board, BoardSize, Row, Column, 0, 1)
   FlipOpponentPiecesInOneDirection(Board, BoardSize, Row, Column, 0, -1)
+
+  #Diagonal Flips  
+  FlipOpponentPiecesInOneDirection(Board, BoardSize, Row, Column, 1, 1)
+  FlipOpponentPiecesInOneDirection(Board, BoardSize, Row, Column, -1, 1)
+  FlipOpponentPiecesInOneDirection(Board, BoardSize, Row, Column, 1, 1)
+  FlipOpponentPiecesInOneDirection(Board, BoardSize, Row, Column, 1, -1)
+
+
 
 
 def PrintLine(BoardSize):

@@ -40,6 +40,7 @@ def checkWords(word1, word2):
 
 
 
+
 if checkWords(word1, word2) == True:
     print("First word can be created using letters from the second word")
 else:
