@@ -23,8 +23,8 @@ class MainWindow(qtw.QMainWindow):
 
         self.lineEdit = qtw.QLineEdit("Type here")
         
-        self.RadioButton1 = qtw.QRadioButton("This one?")
-        self.RadioButton2 = qtw.QRadioButton("Or this one?")
+        self.radioButton1 = qtw.QRadioButton("This one?")
+        self.radioButton2 = qtw.QRadioButton("Or this one?")
         
         self.slider = qtw.QSlider(qtc.Qt.Orientation.Horizontal)
         

@@ -30,8 +30,9 @@ def mergeSort(arr):
         merge(arr, leftArr, rightArr)
 
 
-arr = [5, 8, 1, 5, 9, 43]
+if __name__ == "__main__":
+    arr = [5, 8, 1, 5, 9, 43]
 
-mergeSort(arr)
+    mergeSort(arr)
 
-print(arr)
+    print(arr)
