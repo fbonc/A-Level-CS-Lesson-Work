@@ -13,10 +13,7 @@ class MainWindow(qtw.QMainWindow):
         self.label = qtw.QLabel("Widget Demo")
 
         self.comboBox = qtw.QComboBox()
-        self.comboBox.addItem("One")
-        self.comboBox.addItem("Two")
-        self.comboBox.addItem("Three")
-        self.comboBox.addItem("Four")
+        self.comboBox.addItems(["One", "Two", "Three", "Four"])
         
         self.checkBox1 = qtw.QCheckBox("Choose this")
         self.checkBox2 = qtw.QCheckBox("and this?")
