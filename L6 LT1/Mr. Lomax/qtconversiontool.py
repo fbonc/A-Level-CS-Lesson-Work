@@ -20,8 +20,14 @@ class MainWindow(qtw.QMainWindow):
         self.button1 = qtw.QPushButton("Go")
         self.button1.clicked.connect(self.button_click)
 
-        layout.addRow("Feet", self.lineEdit)
-        layout.addRow("Metres", self.label)
+        self.comboBox1 = qtw.QComboBox()
+        self.comboBox1.addItems(["Feet", "Metres", "Inches", "Yards"])
+
+        self.comboBox2 = qtw.QComboBox()
+        self.comboBox2.addItems(["Feet", "Metres", "Inches", "Yards"])
+
+        layout.addRow(self.comboBox1, self.lineEdit)
+        layout.addRow(self.comboBox2, self.label)
         layout.addRow(self.button1)
 
         widget = qtw.QWidget()
@@ -30,7 +36,16 @@ class MainWindow(qtw.QMainWindow):
         self.setCentralWidget(widget)
 
     def button_click(self):
-        self.label.setText(str(int(self.lineEdit.text()) / 3.281))
+        units = {
+            "Metres" : 1, "Feet" : 3.28084, "Inches" : 39.3701, "Yards" : 1.09361
+        }
+
+        #divide lineEdit.text() by units[comboBox1.currentText()], times by units[comboBox2.currentText()]
+        #e.g. 2 inches in yards: 2 / 39.37 * 1.094 = ~0.0556
+
+        calculatedDistance = int(self.lineEdit.text()) / units[self.comboBox1.currentText()] * units[self.comboBox2.currentText()]
+
+        self.label.setText(str(round(calculatedDistance, 3)))
 
 
 app = qtw.QApplication([])
