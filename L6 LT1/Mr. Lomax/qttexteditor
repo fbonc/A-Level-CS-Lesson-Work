@@ -10,12 +10,12 @@ class MainWindow(qtw.QMainWindow):
 
         self.setWindowTitle("Felipe's Cold Text Editor")
 
-        layout = qtw.QFormLayout()
+        self.layout = qtw.QFormLayout()
 
-        self.title = qtw.QLabel("No File Opened Yet")
+        self.title = qtw.QLabel("No file opened yet")
 
         self.textEdit = qtw.QTextEdit()
-        self.textEdit.setReadOnly(True)
+
 
         self.button1 = qtw.QPushButton("Open")
         self.button1.clicked.connect(self.open_btn_click)#
@@ -26,21 +26,22 @@ class MainWindow(qtw.QMainWindow):
         self.button3 = qtw.QPushButton("Exit")
         self.button3.clicked.connect(self.exit_btn_click)
 
-        layout.addRow(self.title)
-        layout.addRow(self.textEdit)
-        layout.addRow(self.button1)
-        layout.addRow(self.button2)
-        layout.addRow(self.button3)
+        self.layout.addRow(self.title)
+        self.layout.addRow(self.button3)
+        self.layout.addRow(self.button1)
+        #layout.addRow(self.button2)
 
         widget = qtw.QWidget()
-        widget.setLayout(layout)
+        widget.setLayout(self.layout)
         
         self.setCentralWidget(widget)
 
     def open_btn_click(self):
         self.filename, _ = qtw.QFileDialog.getOpenFileName(self, "Open File", ".", "Text Files (*.txt *.html)")
         self.title.setText(self.filename)
-        self.textEdit.setReadOnly(False)
+
+        self.layout.addRow(self.button2)
+        self.layout.addRow(self.textEdit)
 
         with open(self.filename, 'r') as file:
             text = file.read()
@@ -53,10 +54,21 @@ class MainWindow(qtw.QMainWindow):
             file.write(self.textEdit.toPlainText())
 
     def exit_btn_click(self):
-        dlg = qtw.QMessageBox.warning(self, "Exit", "Close editor?\nAny unsaved changes will be lost", qtw.QMessageBox.StandardButton.Ok | qtw.QMessageBox.StandardButton.Cancel)
-        if dlg == qtw.QMessageBox.StandardButton.Ok:
-            qtw.QApplication.quit()
+        saved = False
+        with open(self.filename, 'r') as file:
+            file_text = file.read()
+            editor_text = self.textEdit.toPlainText()
+            if file_text == editor_text:
+                saved = True
 
+        if saved == False: 
+            dlg = qtw.QMessageBox.warning(self, "Exit", "Close editor?\nAny unsaved changes will be lost", qtw.QMessageBox.StandardButton.Ok | qtw.QMessageBox.StandardButton.Cancel)
+            if dlg == qtw.QMessageBox.StandardButton.Ok:
+                qtw.QApplication.quit()
+        
+        else:
+            qtw.QApplication.quit()
+ 
     
 
 
