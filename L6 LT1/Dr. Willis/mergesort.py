@@ -8,7 +8,7 @@ def merge(arr, leftArr, rightArr):
         else:
             arr[k] = rightArr[j]
             j += 1
-        k += 1
+        k += 1  
 
     while i < len(leftArr):
         arr[k] = leftArr[i]
