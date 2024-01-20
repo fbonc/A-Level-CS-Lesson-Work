@@ -3,7 +3,31 @@ import PyQt6.QtCore as qtc
 import PyQt6.QtGui as qtg
 
 import qdarktheme
+import re
 
+class FindDialog(qtw.QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle('Find')
+        self.layout = qtw.QVBoxLayout()
+        self.text_to_find = qtw.QLineEdit()
+        self.next_button = qtw.QPushButton('Next')
+        self.prev_button = qtw.QPushButton('Previous')
+        self.layout.addWidget(self.text_to_find)
+        self.layout.addWidget(self.next_button)
+        self.layout.addWidget(self.prev_button)
+        self.setLayout(self.layout)
+
+        self.next_button.clicked.connect(self.on_next_clicked)
+        self.prev_button.clicked.connect(self.on_prev_clicked)
+
+    def on_next_clicked(self):
+        text = self.text_to_find.text()
+        self.parent().find_text(text, forward=True)
+
+    def on_prev_clicked(self):
+        text = self.text_to_find.text()
+        self.parent().find_text(text, forward=False)
 
 class MainWindow(qtw.QMainWindow):
 
@@ -11,16 +35,14 @@ class MainWindow(qtw.QMainWindow):
         super().__init__()
 
         #Setup
-        self.setWindowTitle("No file open")
+        self.setWindowTitle("Bonchrstianote")
         self.opened = False
         self.layout = qtw.QVBoxLayout()
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(0)
+        self.resize(960,540)
 
-        #self.setWindowFlag(qtc.Qt.WindowType.FramelessWindowHint)
-
-
-        self.not_opened_label = qtw.QLabel("No file open\nPlease press Ctrl+O to choose/create a file.")
+        self.not_opened_label = qtw.QLabel("No file open\nPress Ctrl+O to choose/create a file.")
         self.layout.addWidget(self.not_opened_label)
         self.not_opened_label.setAlignment(qtc.Qt.AlignmentFlag.AlignHCenter)
         self.not_opened_label.setAlignment(qtc.Qt.AlignmentFlag.AlignCenter)
@@ -28,7 +50,7 @@ class MainWindow(qtw.QMainWindow):
         #Create textEdit widget --> added to layout when file is opened in open_button()
         self.textEdit = qtw.QTextEdit()
         self.textEdit.setStyleSheet("QTextEdit:focus { border: none; }")
-        self.textEdit.setFont(qtg.QFont('Arial', 14)) 
+        self.textEdit.setFont(qtg.QFont('Arial', 11))
 
         #Menus init
         menubar = self.menuBar()
@@ -68,7 +90,24 @@ class MainWindow(qtw.QMainWindow):
         cut_action.triggered.connect(self.cut_button)  
         self.edit_menu.addAction(cut_action)
 
-        self.file_menu.addSeparator()
+        self.edit_menu.addSeparator()
+
+        undo_action = qtg.QAction('Undo', self)
+        undo_action.setShortcut('Ctrl+Z')
+        undo_action.triggered.connect(self.textEdit.undo)
+        self.edit_menu.addAction(undo_action)
+
+        redo_action = qtg.QAction('Redo', self)
+        redo_action.setShortcut('Ctrl+Y')
+        redo_action.triggered.connect(self.textEdit.redo)
+        self.edit_menu.addAction(redo_action)
+
+        self.edit_menu.addSeparator()
+
+        find_action = qtg.QAction('Find', self)
+        find_action.setShortcut('Ctrl+F')
+        find_action.triggered.connect(self.open_find_dialog)
+        self.edit_menu.addAction(find_action)
 
         #Toolbar
         self.toolbar = qtw.QToolBar("self.toolbar")
@@ -86,6 +125,11 @@ class MainWindow(qtw.QMainWindow):
         bullet_action.setIcon(qtg.QIcon(r"L6 LT1\Mr. Lomax\pyqt6\texteditor\media\bulletpointsicon.png"))
         self.toolbar.addAction(bullet_action)
 
+        image_action = qtg.QAction('Insert Image', self)
+        image_action.triggered.connect(self.insert_image)
+        image_action.setIcon(qtg.QIcon(r"L6 LT1\Mr. Lomax\pyqt6\texteditor\media\imageicon.png"))
+        self.toolbar.addAction(image_action)
+
         #Setup
         widget = qtw.QWidget()
         widget.setLayout(self.layout)
@@ -94,27 +138,30 @@ class MainWindow(qtw.QMainWindow):
     def open_button(self):
         self.opened = True
         self.filename, _ = qtw.QFileDialog.getOpenFileName(self, "Open File", ".", "Text Files (*.txt *.md)")
-        self.setWindowTitle(self.filename)
-
-        self.not_opened_label.setVisible(False)
-        self.save_action.setVisible(True)
-        self.layout.addWidget(self.textEdit)
-        self.toolbar.setVisible(True)
         
-        with open(self.filename, 'r') as file:
-            text = file.read()
-        self.textEdit.setMarkdown(text)
+        if self.filename:
+
+            self.setWindowTitle(self.filename)
+
+            self.not_opened_label.setVisible(False)
+            self.save_action.setVisible(True)
+            self.layout.addWidget(self.textEdit)
+            self.toolbar.setVisible(True)
+            
+            with open(self.filename, 'r') as file:
+                text = file.read()
+            self.textEdit.setHtml(text)
 
     def save_button(self):
         with open(self.filename, 'w') as file:
-            file.write(self.textEdit.toMarkdown())
+            file.write(self.textEdit.toHtml())
 
     def exit_button(self):
         saved = False
         if self.opened:
             with open(self.filename, 'r') as file:
                 file_text = file.read()
-                editor_text = self.textEdit.toMarkdown()
+                editor_text = self.textEdit.toHtml()
                 if file_text == editor_text:
                     saved = True
 
@@ -122,7 +169,6 @@ class MainWindow(qtw.QMainWindow):
                 dlg = qtw.QMessageBox.warning(self, "Exit", "Close editor?\nAny unsaved changes will be lost", qtw.QMessageBox.StandardButton.Ok | qtw.QMessageBox.StandardButton.Cancel)
                 if dlg == qtw.QMessageBox.StandardButton.Ok:
                     qtw.QApplication.quit()
-            
             else:
                 qtw.QApplication.quit()
         else:
@@ -161,10 +207,35 @@ class MainWindow(qtw.QMainWindow):
         #Apply the list format to the current block
         cursor.createList(list_format)
 
+    def insert_image(self):
+        imagename, _ = qtw.QFileDialog.getOpenFileName(self, "Open Image File", ".", "Image Files (*.png *.jpg *.jpeg *.bmp *.gif)")
+
+        if imagename:
+            size, ok = qtw.QInputDialog.getText(self, "Image Size", "Enter image size (width x height):\ne.g., 100x100")
+            if ok and size:
+                if re.search("\d+\s*[xX]\s*\d+", size):
+                    width, height = re.split("[Xx]", size)
+                    html_img = f'<img src="{imagename}" width="{width}" height="{height}" />'
+                    cursor = self.textEdit.textCursor()
+                    cursor.insertHtml(html_img)
+
+    def open_find_dialog(self):
+        self.find_dialog = FindDialog(self)
+        self.find_dialog.show()
+
+    def find_text(self, text, forward=True):
+        options = qtg.QTextDocument.FindFlag(0)
+        if not forward:
+            options |= qtg.QTextDocument.FindFlag.FindBackward
+        
+        self.textEdit.find(text, options)
+                    
 
 
 app = qtw.QApplication([])
 qdarktheme.setup_theme()
+
+app.setWindowIcon(qtg.QIcon(r'L6 LT1\Mr. Lomax\pyqt6\texteditor\media\mainicon.png'))
 
 window = MainWindow()
 window.show()
