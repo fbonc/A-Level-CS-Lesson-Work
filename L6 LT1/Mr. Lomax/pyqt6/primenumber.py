@@ -34,7 +34,7 @@ def erastosthenes(num):
 
     return [i for i, prime in enumerate(primes) if prime]
 
-        #find first true, make all following multipels false
+        #find first true, make all following multiples false
 
 while True:
     # num = input("What number would you like to check if its prime?")
@@ -42,7 +42,8 @@ while True:
 
     prime_range = input("To what number would you like to find primes? ")
     # print(find_primes(int(prime_range)))
-    print(erastosthenes(int(prime_range)))
+    #print(erastosthenes(int(prime_range)))
+    print(len(erastosthenes(int(prime_range))))
 
 
 
