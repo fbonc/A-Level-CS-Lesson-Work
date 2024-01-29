@@ -264,20 +264,26 @@ class Company:
     return math.sqrt((self._Outlets[Outlet1].GetX() - self._Outlets[Outlet2].GetX()) ** 2 + (self._Outlets[Outlet1].GetY() - self._Outlets[Outlet2].GetY()) ** 2)
 
   def CalculateDeliveryCost(self):
-    ListOfOutlets = self.__GetListOfOutlets()
+    ListOfOutlets = self.__GetListOfOutlet  s()
     TotalDistance = 0.0
     for Current in range (0, len(ListOfOutlets) - 1):
       TotalDistance += self.__GetDistanceBetweenTwoOutlets(ListOfOutlets[Current], ListOfOutlets[Current + 1])
     TotalCost = TotalDistance * self._FuelCostPerUnit
     return TotalCost
-
+  
+  def CheckBankRuptcy(self):
+    if self._Balance < 0:
+      return True
+    return False
+  
 class Simulation:
   def __init__(self):
     self._Companies = []
     self._FuelCostPerUnit = 0.0098
     self._BaseCostforDelivery = 100
+    self._day = 0
     Choice = input("Enter L for a large settlement, anything else for a normal size settlement: ")
-    if Choice == "L":
+    if Choice.lower() == "l":
       ExtraX = int(input("Enter additional amount to add to X size of settlement: "))
       ExtraY = int(input("Enter additional amount to add to Y size of settlement: "))
       ExtraHouseholds = int(input("Enter additional number of households to add to settlement: "))
@@ -285,7 +291,7 @@ class Simulation:
     else:
       self._SimulationSettlement = Settlement()            
     Choice = input("Enter D for default companies, anything else to add your own start companies: ")
-    if Choice == "D":
+    if Choice.lower() == "d":
       self._NoOfCompanies = 3
       Company1 = Company("AQA Burgers", "fast food", 100000, 200, 203, self._FuelCostPerUnit, self._BaseCostforDelivery)
       self._Companies.append(Company1)
@@ -311,11 +317,13 @@ class Simulation:
     print("\n*********************************")
     print("**********    MENU     **********")
     print("*********************************")
+    print(f"Day number: {self._day}")
     print("1. Display details of households")
     print("2. Display details of companies")
     print("3. Modify company")
     print("4. Add new company")
-    print("6. Advance to next day")
+    print("6. Advance time")
+    print("7. Advance mutliple days")
     print("Q. Quit")
     print("\nEnter your choice: ", end = "")
 
@@ -401,12 +409,15 @@ class Simulation:
       print("No events.")
 
   def ProcessDayEnd(self):
+    self._day += 1
     TotalReputation = 0.0
     Reputations = []
     for C in self._Companies:
       C.NewDay()
+      self.__ProcessBankRuptcyEvent(C.CheckBankRuptcy(), C)
+    for C in self._Companies:
       TotalReputation += C.GetReputationScore()
-      Reputations.append(TotalReputation)
+      Reputations.append(TotalReputation)  
     LoopMax = self._SimulationSettlement.GetNumberOfHouseholds() - 1
     for Counter in range (0, LoopMax + 1):
       EatsOut, X, Y = self._SimulationSettlement.FindOutifHouseholdEatsOut(Counter)
@@ -420,6 +431,11 @@ class Simulation:
           Current += 1
     self.__DisplayCompaniesAtDayEnd()
     self.__DisplayEventsAtDayEnd()
+
+  def __ProcessBankRuptcyEvent(self, bankRupt, company):
+    if bankRupt:
+      self._Companies.remove(company)
+      print(f"\n*** Company {company._Name} has gone bankrupt! ***")
         
   def AddCompany(self):
     CompanyName = input("Enter a name for the company: ")
@@ -443,6 +459,11 @@ class Simulation:
       if self._Companies[Current].GetName().lower() == CompanyName.lower():
         return Current
     return Index
+  
+  def ProcessMultipleDayEnd(self):
+    daysNum = int(input("Number of days to advance: "))
+    for _ in range(daysNum + 1):
+      self.ProcessDayEnd()
 
   def ModifyCompany(self, Index):
     print("\n*********************************")
@@ -485,7 +506,7 @@ class Simulation:
   def Run(self):
     Choice = ""
     while Choice != "Q":
-      self.DisplayMenu()
+      self.DisplayMenu()  
       Choice = input()
       if Choice == "1":
         self._SimulationSettlement.DisplayHouseholds()
@@ -501,6 +522,8 @@ class Simulation:
         self.AddCompany()
       elif Choice == "6":
         self.ProcessDayEnd()
+      elif Choice == "7":
+        self.ProcessMultipleDayEnd()
       elif Choice == "Q":
         print("Simulation finished, press Enter to close.")
         input()
