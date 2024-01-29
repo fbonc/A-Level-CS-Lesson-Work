@@ -264,7 +264,7 @@ class Company:
     return math.sqrt((self._Outlets[Outlet1].GetX() - self._Outlets[Outlet2].GetX()) ** 2 + (self._Outlets[Outlet1].GetY() - self._Outlets[Outlet2].GetY()) ** 2)
 
   def CalculateDeliveryCost(self):
-    ListOfOutlets = self.__GetListOfOutlet  s()
+    ListOfOutlets = self.__GetListOfOutlets()
     TotalDistance = 0.0
     for Current in range (0, len(ListOfOutlets) - 1):
       TotalDistance += self.__GetDistanceBetweenTwoOutlets(ListOfOutlets[Current], ListOfOutlets[Current + 1])
