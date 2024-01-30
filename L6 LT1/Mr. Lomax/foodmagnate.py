@@ -5,6 +5,7 @@
 
 import math
 import random
+import itertools
 
 class Household:
   _NextID = 1
@@ -266,10 +267,17 @@ class Company:
   def CalculateDeliveryCost(self):
     ListOfOutlets = self.__GetListOfOutlets()
     TotalDistance = 0.0
-    for Current in range (0, len(ListOfOutlets) - 1):
-      TotalDistance += self.__GetDistanceBetweenTwoOutlets(ListOfOutlets[Current], ListOfOutlets[Current + 1])
-    TotalCost = TotalDistance * self._FuelCostPerUnit
-    return TotalCost
+
+    permutations = itertools.permutations(ListOfOutlets)
+
+    costs = []
+    for i in permutations:
+      for current in range(0, len(i) - 1):
+        TotalDistance += self.__GetDistanceBetweenTwoOutlets(i[current], i[current+1])
+      TotalCost = TotalDistance * self._FuelCostPerUnit
+      costs.append(TotalCost)
+
+    return min(costs)
   
   def CheckBankRuptcy(self):
     if self._Balance < 0:
