@@ -268,7 +268,7 @@ class Company:
     ListOfOutlets = self.__GetListOfOutlets()
     TotalDistance = 0.0
 
-    permutations = itertools.permutations(ListOfOutlets)
+    permutations = list(itertools.permutations(ListOfOutlets))
 
     costs = []
     for i in permutations:
@@ -279,6 +279,21 @@ class Company:
 
     return min(costs)
   
+  def FindDistancesBetweenOutlets(self):
+    ListOfOutlets = self.__GetListOfOutlets()
+    TotalDistance = 0.0
+
+    permutations = list(itertools.permutations(ListOfOutlets))
+    print(permutations)
+
+    distances = []
+    for i in permutations:
+      for current in range(0, len(i) - 1):
+        TotalDistance += self.__GetDistanceBetweenTwoOutlets(i[current], i[current+1])
+      distances.append(TotalDistance)
+    return min(distances)
+
+
   def CheckBankRuptcy(self):
     if self._Balance < 0:
       return True
@@ -332,6 +347,7 @@ class Simulation:
     print("4. Add new company")
     print("6. Advance time")
     print("7. Advance mutliple days")
+    print("8. View outlet distances")
     print("Q. Quit")
     print("\nEnter your choice: ", end = "")
 
@@ -532,6 +548,10 @@ class Simulation:
         self.ProcessDayEnd()
       elif Choice == "7":
         self.ProcessMultipleDayEnd()
+      elif Choice == '8':
+        for i in self._Companies:
+          print(i.FindDistancesBetweenOutlets())
+          # print(f"{i._Name}: {i.FindDistancesBetweenOutlets}")
       elif Choice == "Q":
         print("Simulation finished, press Enter to close.")
         input()
