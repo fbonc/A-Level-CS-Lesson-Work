@@ -2,7 +2,7 @@
 #this code should be used in conjunction with the Preliminary Material
 #written by the AQA Programmer Team
 #developed in the Python 3.5.1 programming environment
-
+ 
 import math
 import random
 
@@ -28,6 +28,12 @@ class Household:
 
   def GetY(self):
     return self._YCoord
+  
+
+class AffluentHousehold(Household):
+    def __init__(self, X, Y):
+        super(AffluentHousehold, self).__init__(X, Y)
+        self._ChanceEatOutPerDay = 1
 
 class Settlement:
   def __init__(self):
@@ -57,7 +63,10 @@ class Settlement:
 
   def AddHousehold(self):
     X, Y = self.GetRandomLocation()
-    Temp = Household(X, Y)
+    if X < 100:
+        Temp = AffluentHousehold(X, Y)
+    else:
+        Temp = Household(X, Y)
     self._Households.append(Temp)
 
   def DisplayHouseholds(self):
@@ -90,7 +99,7 @@ class Outlet:
   def __init__(self, XCoord, YCoord, MaxCapacityBase):
     self._XCoord = XCoord
     self._YCoord = YCoord
-    self._Capacity = int(MaxCapacityBase * 0.6)
+    self._Capacity = int(MaxCapacityBase * 0.6) 
     self._MaxCapacity = MaxCapacityBase + random.randint(0, 49) - random.randint(0, 49)
     self._DailyCosts = MaxCapacityBase * 0.2 + self._Capacity * 0.5 + 100
     self.NewDay()
@@ -264,34 +273,13 @@ class Company:
     return math.sqrt((self._Outlets[Outlet1].GetX() - self._Outlets[Outlet2].GetX()) ** 2 + (self._Outlets[Outlet1].GetY() - self._Outlets[Outlet2].GetY()) ** 2)
 
   def CalculateDeliveryCost(self):
-    ListOfOutlets = self.GetOrderedListOfOutlets()
+    ListOfOutlets = self.__GetListOfOutlets()
     TotalDistance = 0.0
     for Current in range (0, len(ListOfOutlets) - 1):
       TotalDistance += self.__GetDistanceBetweenTwoOutlets(ListOfOutlets[Current], ListOfOutlets[Current + 1])
     TotalCost = TotalDistance * self._FuelCostPerUnit
     return TotalCost
-  
-    
-  def GetOrderedListOfOutlets(self):
-    route = [self._Outlets[0]]
-    tmp = self._Outlets[1:]
-  
-    while len(route) < len(self._Outlets):
-      min_distance = None
-      min_index = None
-      prev = route[-1]
 
-      for i, outlet in enumerate(tmp):
-          distance = self.__GetDistanceBetweenTwoOutlets(self._Outlets.index(prev), self._Outlets.index(outlet))
-          if min_distance is None or distance < min_distance:
-              min_distance = distance
-              min_index = i
-
-      route.append(tmp[min_index])
-      del tmp[min_index]
-
-    return [self._Outlets.index(i) for i in route]
-    
 class Simulation:
   def __init__(self):
     self._Companies = []
@@ -337,7 +325,6 @@ class Simulation:
     print("3. Modify company")
     print("4. Add new company")
     print("6. Advance to next day")
-    print("7. Get ordered list of outlets")
     print("Q. Quit")
     print("\nEnter your choice: ", end = "")
 
@@ -444,8 +431,18 @@ class Simulation:
     self.__DisplayEventsAtDayEnd()
         
   def AddCompany(self):
-    CompanyName = input("Enter a name for the company: ")
+    valid_name = False
+    while not valid_name:
+        valid_name = True
+        CompanyName = input("Enter a name for the company (must not be empty and must be different to other companies): ")
+        if CompanyName == '':
+          valid_name = False
+        for i in self._Companies:
+          if i._Name == CompanyName:
+            valid_name = False
+
     Balance = int(input("Enter the starting balance for the company: "))
+
     TypeOfCompany = ""
     while not(TypeOfCompany == "1" or TypeOfCompany == "2" or TypeOfCompany == "3"):
       TypeOfCompany = input("Enter 1 for a fast food company, 2 for a family company or 3 for a named chef company: ")
@@ -523,11 +520,6 @@ class Simulation:
         self.AddCompany()
       elif Choice == "6":
         self.ProcessDayEnd()
-      elif Choice == "7":
-        print('Ordered list out otlets per company:')
-        for i in self._Companies:
-            print(f"{i._Name}: {i.GetOrderedListOfOutlets()}")
-        
       elif Choice == "Q":
         print("Simulation finished, press Enter to close.")
         input()
