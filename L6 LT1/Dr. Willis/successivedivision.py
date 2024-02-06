@@ -19,15 +19,14 @@ def denarytohex(number):
     
     return hex_str[::-1]
 
-def denarytobase(number, base):
+def denary_to_base(number, base):
     base_str = ''
-    digits = base
 
     mod = len(base)
 
     while number != 0:
         base_digit = number % mod
-        base_str += digits[base_digit]
+        base_str += base[base_digit]
         number = number // mod
     return base_str[::-1]
 
@@ -47,6 +46,22 @@ def write_unicode_to_txt(filepath):
         characters = generate_unicode_chars(0x0000, 0xFFFF)
         file.write(''.join(characters))
 
-with open(r'L6 LT1\Dr. Willis\unicode.txt', 'r', encoding="utf-8") as file:
-    
-    
+def remove_char(character, filepath):
+    text = ''
+    with open(filepath, 'r', encoding="utf-8") as file:
+        text = list(file.read())
+        for i in range(len(text)):
+            if hex(ord(text[i])) == character:
+                text[i] = ''
+    with open(filepath, 'w', encoding="utf-8") as file:
+        file.write(''.join(text))
+
+if __name__ == "__main__":
+    with open(r'L6 LT1\Dr. Willis\unicode.txt', 'r', encoding="utf-8") as file:
+        text = file.read()
+        while True:
+            user_num = input("What denary number would you like to convert?")
+            print(denary_to_base(int(user_num), text))
+
+
+        
