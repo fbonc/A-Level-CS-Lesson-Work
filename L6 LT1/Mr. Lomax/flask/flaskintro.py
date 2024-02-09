@@ -1,16 +1,20 @@
-from flask import Flask
+from flask import Flask, render_template, request
 from flask import request
 import datetime
 
 app = Flask(__name__)
 
 
+
+
 @app.route('/')
 def index():
-    return 'This is a website!'
+    return render_template('index.html')
+
+
 
 @app.route('/add')
-def add():
+def add(): 
     first_number = request.args.get('first', '')
     second_number = request.args.get('second', '')
     if first_number and second_number:
@@ -22,7 +26,7 @@ def add():
     else:
         return 'No arguments detected'
 
-@app.route('/birthday')
+@app.route('/birthdayinfo/')
 def calc_next_birthday():
     today = datetime.date.today()
 
@@ -30,8 +34,6 @@ def calc_next_birthday():
     dob = dob.split('-')
     dob = datetime.date(int(dob[0]), int(dob[1]), int(dob[2]))
 
-    print("My date of birth is: ", dob)
-    print("Today is: ", today)
     birthday_this_year = datetime.date(today.year, dob.month, dob.day)
     birthday_next_year = datetime.date(today.year+1, dob.month, dob.day)
 
@@ -40,20 +42,11 @@ def calc_next_birthday():
     else:
         next_birthday = birthday_next_year
 
-    print('Next birthday: ', next_birthday)
     days_to_birthday = (next_birthday - today).days
     age = (next_birthday - dob).days // 365     # Note, this doesn't take account of leap years so isn't perfect.
-    print('Days to next birthday: ', days_to_birthday)
-    print('Age at next birthday: ', age)
 
-    return f"\
-    <style>h1, p {{text-align: center}} body {{background-color: lightblue;}}</style>\
-    <h1>Birthday Information</h1>\
-    <p>My date of birth is: {dob}</p>\
-    <p>Today is: {today}</p>\
-    <p>Next Birthday: {next_birthday}</p>\
-    <p>Days to next birthday: {days_to_birthday}</p>\
-    <p>Age at next birthday {age}</p>"
+
+    return render_template('birthdayinfo.html', today=today, dob=dob, birthday_this_year=birthday_this_year, birthday_next_year=birthday_next_year, age=age, days_to_birthday=days_to_birthday, next_birthday=next_birthday)
 
 
 if __name__ == '__main__':
