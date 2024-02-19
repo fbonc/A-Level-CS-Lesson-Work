@@ -1,0 +1,45 @@
+body {
+    background-color: powderblue;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+.header {
+    background-color: #F1F1F1;
+    text-align: center;
+    padding: 0.7em;
+    font-size: 1.3em;
+    border-radius: 1em;
+    box-shadow: 0.3em 0.3em 1em black;
+}
+
+p {
+    text-align: center;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #F1F1F1;
+    color: black;
+    text-align: left;
+    height: 10%;
+}
+
+
+#comment {
+    width: 88.5%;
+    height: 100%;
+    font-size: 20px;
+    
+}
+
+#sendbutton {
+    width: 10%;
+    height: 90%;
+}
+
+
+
