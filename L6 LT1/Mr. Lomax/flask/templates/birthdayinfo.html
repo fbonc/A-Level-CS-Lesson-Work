@@ -9,13 +9,19 @@
         body {
             text-align: center;
             background-color: lightblue;   
-            color: red;
+            color: rgb(0, 0, 0);
         }
         
     </style>
 </head>
 <body>
 
+
+    <form action = "/getname" method = "post">
+        <p>What is your DOB?</p>
+        <p><input type="date" id="date" name="date" value=""></p>
+        <p><input type = "submit" value = "submit" /></p>
+    </form>
 
     <h1>Birthday Information</h1>
     <p>My date of birth is: {{dob}}

@@ -1,17 +1,11 @@
 from flask import Flask, render_template, request
-from flask import request
 import datetime
 
 app = Flask(__name__)
 
-
-
-
 @app.route('/')
 def index():
     return render_template('index.html')
-
-
 
 @app.route('/add')
 def add(): 
