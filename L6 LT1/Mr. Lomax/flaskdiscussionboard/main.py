@@ -24,12 +24,12 @@ def index():
             with open(filename, 'a') as file:
                 entry = f"[{current_time}, {today}] {session.get('username', 'Anon')}--:::::--{comment}\n"
                 file.write(entry)
-        
+
 
     with open(filename, 'r') as file:
         text = file.read()
 
-        return render_template('index.html', text=text, username=session.get('username', ''))
+        return render_template('index.html', text=text, username=session.get('username', 'Anon'))
 
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=80, debug=True)
+    app.run(host="0.0.0.0", port=80, debug=True)
