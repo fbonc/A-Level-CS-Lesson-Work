@@ -1,0 +1,9 @@
+SELECT genres.*, ROUND(SUM(invoice_items.UnitPrice), 2) AS 'Total Money Spent in 2010'
+FROM genres
+
+JOIN tracks ON tracks.GenreId = genres.GenreId
+JOIN invoice_items ON invoice_items.TrackId = tracks.TrackId 
+JOIN invoices ON invoices.InvoiceId = invoice_items.InvoiceId AND invoices.InvoiceDate LIKE '%2010%'
+
+GROUP BY genres.GenreId
+ORDER BY SUM(invoice_items.UnitPrice) DESC
