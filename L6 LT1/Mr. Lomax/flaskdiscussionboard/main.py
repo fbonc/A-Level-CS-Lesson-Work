@@ -20,7 +20,7 @@ def index():
             now = datetime.datetime.now()
             current_time = now.strftime("%H:%M")
             today = datetime.date.today()
-
+    
             with open(filename, 'a') as file:
                 entry = f"[{current_time}, {today}] {session.get('username', 'Anon')}--:::::--{comment}\n"
                 file.write(entry)
