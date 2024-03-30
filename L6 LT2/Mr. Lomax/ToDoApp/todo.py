@@ -74,7 +74,7 @@ def sql_search(connection):
     print(*result)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  
     print("----- WELCOME TO YOUR TO DO LIST -----")
 
     while True:
