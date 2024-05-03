@@ -1,0 +1,36 @@
+%!PS
+
+% /ox 10 def
+% /oy 10 def
+% /size 100 def
+
+
+/circleinsidetriangle {
+
+/size exch def
+/oy exch def
+/ox exch def
+
+size 2 div 300 exch sub size 2 div 424 exch sub translate
+newpath
+
+/midx size 2 div ox add def
+/midy oy 3 sqrt 1 exch div size 2 div mul add def
+/topvertexy oy size dup mul size 2 div dup mul sub sqrt add def
+/circleradius 1 3 div topvertexy oy sub mul def
+
+
+ox oy moveto
+size ox add oy lineto
+midx topvertexy lineto
+ox oy lineto
+midx midy moveto
+circleradius 0 360 arc
+
+} def
+
+10 10 100 circleinsidetriangle
+
+closepath
+stroke
+showpage
