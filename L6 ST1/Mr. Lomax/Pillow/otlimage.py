@@ -43,15 +43,10 @@ def save_image(image, filename):
 
         for y in range(height):
             for x in range(width):
-                
-                for i in pixels[x,y]:
-                    file.write(f"{str(i)} ")
-                file.write("\n")
-                
+                rgb = list(map(str, pixels[x,y]))
 
-    # with open(filename, 'r') as file:
-    #     text = file.read()
-    #     print(text)                
+                file.write(f"{" ".join(rgb)}\n")
+                
 
         
 image = Image.open(r"L6 ST1\Mr. Lomax\Pillow\car.jpg")
