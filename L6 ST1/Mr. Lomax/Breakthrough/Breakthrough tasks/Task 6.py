@@ -178,6 +178,9 @@ class Breakthrough():
                 print()
                 print("Difficulty encountered!")
                 print(self.__Hand.GetCardDisplay())
+
+                self.__Deck.DisplayStats()
+
                 print("To deal with this you need to either lose a key ", end='')
                 Choice = input("(enter 1-5 to specify position of key) or (D)iscard five cards from the deck:> ")
                 print()
@@ -340,6 +343,7 @@ class Card():
 
 class ToolCard(Card):
     def __init__(self, *args):
+        self._CardType = "Tool"
         self._ToolType = args[0]   
         self._Kit = args[1]
         if len(args) == 2:
@@ -397,6 +401,9 @@ class CardCollection():
         self._Name = N
         self._Cards = []
 
+        self._NumPicks, self._NumFiles, self._NumKeys = 0, 0, 0
+
+
     def GetName(self):
         return self._Name
 
@@ -405,9 +412,24 @@ class CardCollection():
 
     def GetCardDescriptionAt(self, X):
         return self._Cards[X].GetDescription()
+    
+    def DisplayStats(self):
+        size = self.GetNumberOfCards()
+
+        pick_prob = (self._NumPicks / size) * 100
+        file_prob = (self._NumFiles / size) * 100
+        key_prob = (self._NumKeys / size) * 100
+
+        print(f"There is a {key_prob:.2f}% chance that the next card will be a key, a {file_prob:.2f}% chance that it will be a file and a {pick_prob:.2f}% chance that it will be a pick.")
+
 
     def AddCard(self, C):
         self._Cards.append(C)
+
+        if C._CardType == "Dif": pass
+        elif C._ToolType == "P": self._NumPicks += 1
+        elif C._ToolType == "F": self._NumFiles += 1
+        elif C._ToolType == "K": self._NumKeys += 1
     
     def GetNumberOfCards(self): 
         return len(self._Cards)
@@ -429,6 +451,12 @@ class CardCollection():
                 CardFound = True
                 self._Cards.pop(Pos)
             Pos += 1
+            
+            card_type = self._Cards[Pos]._ToolType
+            if card_type == "P": self._NumPicks -= 1
+            elif card_type == "F": self._NumFiles -= 1
+            elif card_type == "K": self._NumKeys -= 1
+
         return CardToGet
 
     def __CreateLineOfDashes(self, Size):
