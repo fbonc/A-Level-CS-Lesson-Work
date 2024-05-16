@@ -53,6 +53,13 @@ class Breakthrough():
                             self.__GetCardFromDeck(CardChoice)
                         elif DiscardOrPlay == "P":
                             self.__PlayCardToSequence(CardChoice)
+                    elif MenuChoice == "S":
+                        filepath = input("Enter the filepath that you would like to write the save to: ")
+                        
+                        if not filepath.endswith(".txt"):
+                            filepath += ".txt"
+
+                        self.__SaveGame(filepath)
                     if self.__CurrentLock.GetLockSolved():
                         self.__LockSolved = True
                         self.__ProcessLockSolved()
@@ -215,7 +222,7 @@ class Breakthrough():
 
     def __GetChoice(self):
         print()
-        Choice = input("(D)iscard inspect, (U)se card:> ").upper()
+        Choice = input("(D)iscard inspect, (U)se card, (S)ave game:> ").upper()
         return Choice
     
     def __AddDifficultyCardsToDeck(self):
@@ -256,6 +263,20 @@ class Breakthrough():
             if CardToMove is not None:
                 ToCollection.AddCard(CardToMove)
         return Score
+    
+    def __SaveGame(self, filepath):
+        score = self.__Score
+        lock = self.__CurrentLock.GetLock()
+        met = self.__CurrentLock.GetMetSave()
+        hand = self.__Hand.GetCollection()
+        sequence = self.__Sequence.GetCollection()
+        discard = self.__Discard.GetCollection()
+        deck = self.__Deck.GetCollection()
+
+        save_file = filepath
+        with open(save_file, "w") as file:
+            file.write("\n".join(map(str, [score, lock, met, hand, sequence, discard, deck])))
+
 
 class Challenge():
     def __init__(self):
