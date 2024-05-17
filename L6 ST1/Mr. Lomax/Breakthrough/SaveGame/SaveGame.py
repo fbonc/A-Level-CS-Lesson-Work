@@ -24,9 +24,9 @@ class Breakthrough():
         self.__LoadLocks()
 
     def test(self):
-        print(self.__CurrentLock.GetLock())
+        print(self.__CurrentLock.GetLockSave())
         print(self.__CurrentLock.GetMetSave())
-        print(self.__Deck.GetCollection())
+        print(self.__Deck.GetCollectionSave())
     
     def PlayGame(self):
         if len(self.__Locks) > 0:
@@ -266,12 +266,12 @@ class Breakthrough():
     
     def __SaveGame(self, filepath):
         score = self.__Score
-        lock = self.__CurrentLock.GetLock()
+        lock = self.__CurrentLock.GetLockSave()
         met = self.__CurrentLock.GetMetSave()
-        hand = self.__Hand.GetCollection()
-        sequence = self.__Sequence.GetCollection()
-        discard = self.__Discard.GetCollection()
-        deck = self.__Deck.GetCollection()
+        hand = self.__Hand.GetCollectionSave()
+        sequence = self.__Sequence.GetCollectionSave()
+        discard = self.__Discard.GetCollectionSave()
+        deck = self.__Deck.GetCollectionSave()
 
         with open(filepath, "w") as file:
             file.write("\n".join([str(score), lock, met, hand, sequence, discard, deck]))
@@ -343,7 +343,7 @@ class Lock():
     def GetNumberOfChallenges(self): 
         return len(self._Challenges)
     
-    def GetLock(self):
+    def GetLockSave(self):
         curr_lock = ""
 
         for i in self._Challenges:
@@ -459,7 +459,7 @@ class CardCollection():
     def GetNumberOfCards(self): 
         return len(self._Cards)
     
-    def GetCollection(self):
+    def GetCollectionSave(self):
         collection = ""
 
         for i in self._Cards:
