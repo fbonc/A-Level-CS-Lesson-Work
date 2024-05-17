@@ -273,8 +273,7 @@ class Breakthrough():
         discard = self.__Discard.GetCollection()
         deck = self.__Deck.GetCollection()
 
-        save_file = filepath
-        with open(save_file, "w") as file:
+        with open(filepath, "w") as file:
             file.write("\n".join(map(str, [score, lock, met, hand, sequence, discard, deck])))
 
 
