@@ -274,7 +274,7 @@ class Breakthrough():
         deck = self.__Deck.GetCollection()
 
         with open(filepath, "w") as file:
-            file.write("\n".join(map(str, [score, lock, met, hand, sequence, discard, deck])))
+            file.write("\n".join([str(score), lock, met, hand, sequence, discard, deck]))
 
 
 class Challenge():
