@@ -1,7 +1,13 @@
-8
-P a,F a,P a;K b;P c,F b,P a;K a
-N;Y;N;Y
-P a 1,F a 16,P b 2,K a 19,P a 4
-K b 20,F c 30,K a 31
+Programming – inside and outside of school 
+Make video games
+Chemistry: Chemical engineering - Process data, explore interest outside of school
+Talk about Programming, sense of community
 
-P a 7,Dif 34,P a 10,P a 13,K a 25,K b 26,K b 32,K c 21,K c 27,K c 33,P b 5,P b 8,P b 11,P b 14,P c 3,P c 6,P c 9,P c 12,P c 15,F a 22,F a 28,F b 17,F b 23,F b 29,F c 18,F c 24,Dif 35,Dif 36,Dif 37,Dif 38
+
+- Introduction to Programming Passion: Describe a transformative moment when you first discovered programming, and how it sparked a deep and enduring curiosity.
+- Creating Video Games: Illustrate the specific process of developing a video game, emphasizing the creative challenges and the joy of immersive problem-solving.
+- Chemistry and Chemical Engineering: Narrate an experience that sparked your interest in chemical engineering, highlighting the complexity and beauty of chemical processes.
+- Research Projects: Detail a specific research project combining chemical engineering and computer science, such as water purification, and the profound impact it had on your perspective.
+- Programming and Community: Reflect on how programming has provided a sense of community, helped overcome feelings of isolation, and allowed you to connect with like-minded individuals.
+- Learning and Growth: Discuss the continuous learning process, mentioning mentors, books, or resources that have significantly influenced your journey.
+Conclusion: Tie together your passions and experiences, describing your vision for the future and how you plan to use your skills to make a meaningful impact.

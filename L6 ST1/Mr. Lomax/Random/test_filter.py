@@ -10,7 +10,7 @@ class TestFilterResult(unittest.TestCase):
         self.assertEqual(censor("Oh lordy this is a load of poppycock poo"), "Oh l***y this is a load of p*******k p*o")
 
     def test2(self):
-        self.assertEqual(censor("Oh lordy this is a load of poppycock poo."), "Oh l***y this is a load of p*******k p*o.")
+        self.assertEqual(censor("Oh lordy! This is a load of poppycock poo."), "Oh l***y! This is a load of p*******k p*o.")
 
 class TestFilterMore(unittest.TestCase):
     def test_return_type(self):
